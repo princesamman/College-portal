@@ -1,0 +1,75 @@
+# Python
+
+**pycache**/
+*.pyc
+*.pyo
+
+# Virtual Environment
+
+venv/
+.venv/
+env/
+
+# Environment Variables
+
+.env
+
+# Database
+
+*.db
+*.sqlite3
+
+# Flask
+
+instance/
+
+# Logs
+
+logs/*
+!logs/.gitkeep
+
+# ML Artifacts
+artifacts/*
+!artifacts/.gitkeep
+
+# Uploads
+
+static/uploads/*
+!static/uploads/.gitkeep
+
+# Jupyter
+
+.ipynb_checkpoints/
+
+# IDE
+
+.vscode/
+.idea/
+
+# OS
+
+.DS_Store
+Thumbs.db
+
+# Build
+
+build/
+dist/
+*.egg-info/
+
+# Conda
+.conda/
+*.pyw
+*.pyd
+
+# Test cache
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Distribution
+*.egg
+MANIFEST
+
+# ML Artifacts
+*.pkl

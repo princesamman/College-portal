@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block title %}Register{% endblock %}
+
+{% block auth_content %}
+<div class="auth-page">
+  <div class="auth-card auth-card-compact">
+
+    <div class="auth-logo">
+      <img src="{{ url_for('static', filename='css/MCE_logo.jpg') }}" alt="MCE Logo">
+      <div class="college-name">Student Registration</div>
+      <div class="college-sub">Motihari College of Engineering</div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('auth.register') }}">
+
+      <div class="mb-3">
+        <label class="form-label">Registration Number</label>
+        <input type="text" name="reg_no" class="form-control"
+               placeholder="e.g. 22151113003 or 23151113003LE"
+               value="{{ reg_no or '' }}" required autofocus>
+        <div class="form-text">
+          Lateral entry students add <strong style="color:var(--gold)">LE</strong> suffix.
+          Your department, batch &amp; semester will be auto-detected.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Full Name</label>
+        <input type="text" name="name" class="form-control"
+               placeholder="As per college records"
+               value="{{ name or '' }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Create Password</label>
+        <div class="input-group">
+          <input type="password" name="password" id="pwd1"
+                 class="form-control" placeholder="Minimum 6 characters" required>
+          <button class="btn btn-outline-secondary" type="button"
+                  onclick="togglePwd('pwd1','eye1')">
+            <i class="bi bi-eye" id="eye1"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">Confirm Password</label>
+        <div class="input-group">
+          <input type="password" name="confirm_password" id="pwd2"
+                 class="form-control" placeholder="Re-enter password" required>
+          <button class="btn btn-outline-secondary" type="button"
+                  onclick="togglePwd('pwd2','eye2')">
+            <i class="bi bi-eye" id="eye2"></i>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-lg w-100">
+        <i class="bi bi-person-check me-2"></i>Create Account
+      </button>
+    </form>
+
+    <div style="text-align:center;margin-top:20px;font-size:13px;color:var(--text-muted);">
+      Already registered?
+      <a href="{{ url_for('auth.login') }}" style="color:var(--gold);font-weight:600;text-decoration:none;">
+        Sign In
+      </a>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function togglePwd(id, iconId) {
+  const p = document.getElementById(id);
+  const i = document.getElementById(iconId);
+  p.type = p.type === 'password' ? 'text' : 'password';
+  i.className = p.type === 'password' ? 'bi bi-eye' : 'bi bi-eye-slash';
+}
+</script>
+{% endblock %}

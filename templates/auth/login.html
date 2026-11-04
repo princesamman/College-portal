@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+
+{% block auth_content %}
+<div class="auth-page">
+  <div class="auth-layout">
+    <div class="auth-card">
+
+    <div class="auth-logo">
+      <img src="{{ url_for('static', filename='css/MCE_logo.jpg') }}" alt="MCE Logo">
+      <div class="college-name">Motihari College of Engineering</div>
+      <div class="college-sub">MCE Motihari · Bihar Engineering University</div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('auth.login') }}">
+      <div class="mb-3">
+        <label class="form-label">Registration / Employee ID</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-person"></i></span>
+          <input type="text" name="reg_no" class="form-control"
+                 placeholder="e.g. 22151113003 or ADMIN001"
+                 value="{{ request.form.get('reg_no', '') }}"
+                 required autofocus>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">Password</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-lock"></i></span>
+          <input type="password" name="password" id="pwd" class="form-control"
+                 placeholder="Enter your password" required>
+          <button class="btn btn-outline-secondary" type="button"
+                  onclick="togglePwd()">
+            <i class="bi bi-eye" id="eye-icon"></i>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-lg w-100">
+        <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+      </button>
+    </form>
+
+
+    <div class="auth-footnote">
+      Affiliated to Bihar Engineering University, Patna · Est. 1980
+    </div>
+
+    </div>
+    
+    <!-- <aside class="auth-side">
+      <div class="auth-side-badge">MCE Academic Portal</div>
+      <h2>Professional campus platform for daily academics.</h2>
+      <p>
+        Track attendance, marks, analytics, and notices in one secure place.
+        Built for students, professors, HODs, and administrators.
+      </p>
+      <ul>
+        <li><i class="bi bi-check2-circle"></i> Personalized dashboards by role</li>
+        <li><i class="bi bi-check2-circle"></i> Real-time attendance and internal updates</li>
+        <li><i class="bi bi-check2-circle"></i> Secure authentication and access control</li>
+      </ul>
+    </aside> -->
+    <aside>
+      <img src="{{ url_for('static', filename='css/MCE_Image.jpg') }}" alt="Login Side Image" class="auth-side-image">
+    </aside>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function togglePwd() {
+  const p = document.getElementById('pwd');
+  const i = document.getElementById('eye-icon');
+  p.type = p.type === 'password' ? 'text' : 'password';
+  i.className = p.type === 'password' ? 'bi bi-eye' : 'bi bi-eye-slash';
+}
+</script>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}Analytics — HOD{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h3><i class="bi bi-bar-chart me-2"></i>Department Analytics</h3>
+  <p class="text-muted mb-0">{{ total }} total students across your department(s)</p>
+</div>
+
+<!-- Risk Overview -->
+<div class="row g-3 mb-4">
+  {% for label, color in [('High Risk','danger'),('Medium Risk','warning'),('Low Risk','success')] %}
+  <div class="col-md-4">
+    <div class="stat-card bg-{{ color }}">
+      <div class="stat-number">{{ risk_counts[label] }}</div>
+      <div class="stat-label">{{ label }}</div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="row g-4">
+  <!-- By Department -->
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-header bg-white fw-bold">
+        <i class="bi bi-building me-2 text-primary"></i>By Department
+      </div>
+      <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+          <thead>
+            <tr>
+              <th>Department</th>
+              <th class="text-center">Students</th>
+              <th class="text-center">Avg Att.</th>
+              <th class="text-center">High Risk</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for dept, info in by_dept.items() %}
+            <tr>
+              <td class="fw-semibold">{{ dept }}</td>
+              <td class="text-center">{{ info.total }}</td>
+              <td class="text-center">
+                <span class="{% if info.avg_att >= 75 %}text-success{% elif info.avg_att >= 60 %}text-warning{% else %}text-danger{% endif %}">
+                  {{ info.avg_att }}%
+                </span>
+              </td>
+              <td class="text-center">
+                <span class="badge bg-danger">{{ info.high }}</span>
+              </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="4" class="text-muted text-center py-3">No data.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- By Semester -->
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-header bg-white fw-bold">
+        <i class="bi bi-layers me-2 text-primary"></i>By Semester
+      </div>
+      <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+          <thead>
+            <tr>
+              <th>Semester</th>
+              <th class="text-center">Students</th>
+              <th class="text-center">High Risk</th>
+              <th class="text-center">Risk %</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for sem, info in by_semester.items() %}
+            <tr>
+              <td class="fw-semibold">Semester {{ sem }}</td>
+              <td class="text-center">{{ info.total }}</td>
+              <td class="text-center"><span class="badge bg-danger">{{ info.high }}</span></td>
+              <td class="text-center">
+                {% if info.total > 0 %}
+                  {{ (info.high / info.total * 100) | round(1) }}%
+                {% else %}—{% endif %}
+              </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="4" class="text-muted text-center py-3">No data.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
